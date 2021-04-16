@@ -5,5 +5,5 @@ Accounts.registerLoginHandler('firebase', ({ token }) => {
 
   //TODO: Validate the token from firebase admin
 
-  return Accounts.updateOrCreateUserFromExternalService('knawat', { id: token });
+  return Accounts.updateOrCreateUserFromExternalService('firebase', { id: token });
 });

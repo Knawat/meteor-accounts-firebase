@@ -6,14 +6,16 @@ Package.describe({
 
 Package.onUse(api => {
   api.use(['ecmascript']);
+  api.use(['check']);
   api.use('accounts-base', ['client', 'server']);
-  api.use('service-configuration', ['client', 'server']);
 
   api.imply('accounts-base', ['client', 'server']);
   api.imply('email', 'server');
 
   api.addFiles('client.js', 'client');
   api.addFiles('server.js', 'server');
+
+  api.export(['firebase'], 'client');
 });
 
 Npm.depends({

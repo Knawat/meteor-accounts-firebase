@@ -1,8 +1,7 @@
 import firebase from "firebase/app";
-
 import "firebase/auth";
 
-  // FIXME: Move this part to init function to get config from parent app
+// FIXME: Move this part to init function to get config from parent app
 firebase.initializeApp({
   apiKey: "AIzaSyBiTCTDP8aJt3EIrkrpAN6edFi0hu4aKVI",
   authDomain: "knawat-auth-dev.firebaseapp.com",
@@ -20,23 +19,31 @@ Accounts.registerClientLoginFunction('firebase', (token) => {
 
 Meteor.startup(() => {
 
-
   firebase.auth().onAuthStateChanged(((user) => {
     if (user && Meteor.loggingIn() === false) {
       user.getIdToken().then(((token) => {
 
         Accounts.callLoginFunction('firebase', token);
       }))
-    } else if (!user) {
-      Meteor.logout()
-      //TODO: redirect to login page
+    } else {
+
+      if (Meteor.loggingIn()) {
+        Meteor.logout()
+      }
+
+      // const loginUrl = Meteor.settings.public.loginUrl;
+      // const searchQuery = Object.entries({ redirect: window.location.href })
+      //   .map(([key, val]) => val && `${key}=${val}`)
+      //   .join('&');
+      // const accountsLogin = `${loginUrl}/login?${searchQuery}`;
+      // window.location.href = accountsLogin;
     }
   }));
 })
 
 // In case you calling Meteor.logout() from the client side
 Accounts.onLogout(() => {
-  if (firebase.auth().currentUser){
+  if (firebase.auth().currentUser) {
     firebase.auth().signOut();
   }
 })

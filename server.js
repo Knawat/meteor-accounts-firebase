@@ -1,9 +1,20 @@
-import { check } from 'meteor/check'
+import { check } from "meteor/check"
+import admin from "firebase-admin";
 
+admin.initializeApp({
+  credential: admin.credential.applicationDefault()
+});
 Accounts.registerLoginHandler('firebase', ({ token }) => {
   check(token, String);
 
-  //TODO: Validate the token from firebase admin
+  return admin
+    .auth()
+    .verifyIdToken(token)
+    .then(({ uid }) => Accounts.updateOrCreateUserFromExternalService('firebase', {
+      id: uid
+    }))
+    .catch((error) => {
+      throw new Meteor.Error(error);
+    });
 
-  return Accounts.updateOrCreateUserFromExternalService('firebase', { id: token });
 });

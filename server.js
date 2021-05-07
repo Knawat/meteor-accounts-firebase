@@ -10,9 +10,27 @@ Accounts.registerLoginHandler('firebase', ({ token }) => {
   return admin
     .auth()
     .verifyIdToken(token)
-    .then(({ uid }) => Accounts.updateOrCreateUserFromExternalService('firebase', {
-      id: uid
-    }))
+    .then((user) => {
+      console.log({user})
+
+      const createdUser = Accounts.updateOrCreateUserFromExternalService('firebase', {
+        id: user.uid
+      });
+
+      if (createdUser.userId){
+        console.log({createdUser})
+        Meteor.users.update({_id: createdUser.userId}, {
+          $set: {
+            profile: user,
+            emails: [{
+              value: user.email
+            }]
+          }
+        })
+      }
+
+      return createdUser;
+    })
     .catch((error) => {
       throw new Meteor.Error(error);
     });

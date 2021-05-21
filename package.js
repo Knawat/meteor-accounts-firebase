@@ -16,6 +16,7 @@ Package.onUse(api => {
   api.addFiles('server.js', 'server');
 
   api.export(['firebase'], 'client');
+  api.export(['firebase_admin'], 'server');
 });
 
 Npm.depends({

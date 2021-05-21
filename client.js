@@ -2,9 +2,13 @@ import firebase from "firebase/app";
 import "firebase/auth";
 
 Meteor.startup(() => {
-  window.firebase = firebase;
+  // For debugging purposes
+  if (process.env.NODE_ENV === 'development') {
+    window.firebase = firebase;
+  }
 
   const config = Meteor.settings.public.firebase;
+  // Stopping if firebase config not provided
   if (!config) {
     throw new Meteor.Error('Firebase config missing. Check firebase object under Meteor public settings');
   }
@@ -38,13 +42,13 @@ Meteor.startup(() => {
       // window.location.href = accountsLogin;
     }
   }));
-})
 
-// In case you calling Meteor.logout() from the client side
-Accounts.onLogout(() => {
-  if (firebase.auth().currentUser) {
-    firebase.auth().signOut();
-  }
+  // In case you calling Meteor.logout() from the client side
+  Accounts.onLogout(() => {
+    if (firebase.auth().currentUser) {
+      firebase.auth().signOut();
+    }
+  })
 })
 
 export { firebase };

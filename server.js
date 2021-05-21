@@ -1,9 +1,16 @@
 import { check } from "meteor/check"
 import admin from "firebase-admin";
 
-admin.initializeApp({
-  credential: admin.credential.applicationDefault()
-});
+Meteor.startup(() => {
+  if (!admin.credential.applicationDefault().projectId) {
+    console.warn('firebase-admin did not initialize, missing credentials');
+    return;
+  }
+
+  admin.initializeApp({
+    credential: admin.credential.applicationDefault()
+  });
+})
 
 // Since Meteor server runs synchronosly, we used Meteor.methods to wrap code asynchronously,
 // This allows user data to be resolved before continouing with rest of the logic
@@ -38,3 +45,5 @@ Accounts.registerLoginHandler('firebase', ({ token }) => {
 
   return user;
 });
+
+export { admin as firebase_admin }

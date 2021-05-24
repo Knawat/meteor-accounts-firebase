@@ -24,9 +24,9 @@ Meteor.methods({
 
 Accounts.registerLoginHandler('firebase', ({ token }) => {
   check(token, String);
-if (!admin.credential.applicationDefault().projectId) {
-  throw new Meteor.Error('Firebase config missing. Check firebase object under Meteor public settings');
-}
+  if (!admin.credential.applicationDefault().projectId) {
+    throw new Meteor.Error('Firebase config missing. Check firebase object under Meteor public settings');
+  }
   const userData = Meteor.call('firebase.verify', token);
   
   const user = Accounts.updateOrCreateUserFromExternalService('firebase', {

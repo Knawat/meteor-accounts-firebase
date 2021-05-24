@@ -1,7 +1,9 @@
 Package.describe({
   name: 'accounts-firebase',
-  summary: 'Login service via Firebase',
+  summary: 'Login service via Firebase Authentication',
   version: '0.0.0',
+  documentation: 'readme.md',
+  git: 'https://github.com/Knawat/meteor-accounts-firebase.git'
 });
 
 Package.onUse(api => {

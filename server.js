@@ -36,8 +36,8 @@ Accounts.registerLoginHandler('firebase', ({ token }) => {
       $set: {
         profile: user,
         emails: [{
-          value: user.email,
-          verified: user.email_verified
+          value: userData.email,
+          verified: userData.email_verified
         }]
       }
     })

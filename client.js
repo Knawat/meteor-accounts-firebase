@@ -10,7 +10,7 @@ Meteor.startup(() => {
   const config = Meteor.settings.public.firebase;
   // Stopping if firebase config not provided
   if (!config) {
-    throw new Meteor.Error('Firebase config missing. Check firebase object under Meteor public settings');
+    console.warn('Firebase config missing. Check firebase object under Meteor public settings');
   }
   firebase.initializeApp(config);
 

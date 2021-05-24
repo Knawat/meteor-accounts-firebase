@@ -1,0 +1,27 @@
+Package.describe({
+  name: 'accounts-firebase',
+  summary: 'Login service via Firebase Authentication',
+  version: '0.0.0',
+  documentation: 'readme.md',
+  git: 'https://github.com/Knawat/meteor-accounts-firebase.git'
+});
+
+Package.onUse(api => {
+  api.use(['ecmascript']);
+  api.use(['check']);
+  api.use('accounts-base', ['client', 'server']);
+
+  api.imply('accounts-base', ['client', 'server']);
+  api.imply('email', 'server');
+
+  api.addFiles('client.js', 'client');
+  api.addFiles('server.js', 'server');
+
+  api.export(['firebase'], 'client');
+  api.export(['firebase_admin'], 'server');
+});
+
+Npm.depends({
+  'firebase': '8.3.2',
+  'firebase-admin': '9.6.0'
+});

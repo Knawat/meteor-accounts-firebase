@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
+import { enableFirebaseUi } from "./firebaseui";
 
 Meteor.startup(() => {
   // For debugging purposes
@@ -32,15 +33,11 @@ Meteor.startup(() => {
     } else {
 
       if (Meteor.loggingIn()) {
-        Meteor.logout()
+        return Meteor.logout()
       }
 
-      // const loginUrl = Meteor.settings.public.loginUrl;
-      // const searchQuery = Object.entries({ redirect: window.location.href })
-      //   .map(([key, val]) => val && `${key}=${val}`)
-      //   .join('&');
-      // const accountsLogin = `${loginUrl}/login?${searchQuery}`;
-      // window.location.href = accountsLogin;
+      // TODO: Don't show on logout
+      enableFirebaseUi();
     }
   }));
 

@@ -11,7 +11,9 @@ Package.onUse(api => {
   api.use(['ecmascript', 'check']);
   api.use('accounts-base', ['client', 'server']);
 
+  api.addFiles('style.css', 'client');
   api.addFiles('client.js', 'client');
+  api.addFiles('firebaseui.js', 'client');
   api.addFiles('server.js', 'server');
 
   api.export(['firebase'], 'client');
@@ -20,5 +22,5 @@ Package.onUse(api => {
 
 Npm.depends({
   'firebase': '8.3.2',
-  'firebase-admin': '9.6.0'
+  'firebase-admin': '9.6.0',
 });

@@ -1,44 +1,47 @@
 import firebase from "firebase/app";
 import "firebase/auth";
+import { rtlLangs } from "./utils";
 
 const enableFirebaseUi = () => {
   // Localize based on document html lang attribute or 'lang' query param
   const langQueryParam = new URL(window.location.href).searchParams.get('lang');
+
   const LANGUAGE_CODE = document.documentElement.lang || langQueryParam || 'en';
-  const isRTL = LANGUAGE_CODE.includes('ar') ? '-rtl' : '';
+  const IS_RTL = rtlLangs.includes(LANGUAGE_CODE) ? '-rtl' : '';
+  const FIREBASEUI_VERSION = Meteor.settings.public.firebaseui.version || '4.8.0';
+  const INIT_CONFIG = Meteor.settings.public.firebaseui.init;
 
   // Load CDN
   const uiScript = document.createElement('script');
-  uiScript.src = `https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth__${LANGUAGE_CODE}.js`;
+  uiScript.src = `https://www.gstatic.com/firebasejs/ui/${FIREBASEUI_VERSION}/firebase-ui-auth__${LANGUAGE_CODE}.js`;
 
   const uiStyle = document.createElement('link');
   uiStyle.type = 'text/css';
   uiStyle.rel = 'stylesheet';
-  uiStyle.href = `https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth${isRTL}.css`;
+  uiStyle.href = `https://www.gstatic.com/firebasejs/ui/${FIREBASEUI_VERSION}/firebase-ui-auth${IS_RTL}.css`;
 
   document.head.append(uiScript);
   document.head.append(uiStyle);
 
   // TODO: Put firebase ui behind feature flag to be optional
   const uiConfig = {
+    ...INIT_CONFIG,
     callbacks: {
       signInSuccessWithAuthResult: () => {
         cleanupFirebaseUi([uiScript, uiStyle]);
         return true;
       }
     },
-    signInFlow: 'popup',
-    signInSuccessUrl: window.location.href, // successful url to be same as current page 
+    signInSuccessUrl: window.location.href,
     signInOptions: [
-      firebase.auth.EmailAuthProvider.PROVIDER_ID,
-      firebase.auth.PhoneAuthProvider.PROVIDER_ID,
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
       firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+      // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+      // firebase.auth.GithubAuthProvider.PROVIDER_ID,
+      firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+      // firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
     ],
-
-    // TODO: Support dynamic values to be passed from meteor app
-    tosUrl: 'https://www.knawat.com/terms/',
-    privacyPolicyUrl: 'https://www.knawat.com/privacy-policy/'
   };
 
   uiScript.addEventListener('load', () => {

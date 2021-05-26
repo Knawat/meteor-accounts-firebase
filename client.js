@@ -1,6 +1,5 @@
 import firebase from "firebase/app";
 import "firebase/auth";
-import { enableFirebaseUi } from "./firebaseui";
 
 Meteor.startup(() => {
   // For debugging purposes
@@ -36,8 +35,11 @@ Meteor.startup(() => {
         return Meteor.logout()
       }
 
-      // TODO: Don't show on logout
-      enableFirebaseUi();
+      if (Meteor.settings.public.firebaseui && Meteor.settings.public.firebaseui.enabled) {
+        import ("./firebaseui").then(({ enableFirebaseUi }) => {
+          enableFirebaseUi();
+        });
+      }
     }
   }));
 

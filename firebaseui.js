@@ -3,7 +3,6 @@ import "firebase/auth";
 import { rtlLangs } from "./utils";
 
 const enableFirebaseUi = () => {
-  // Localize based on document html lang attribute or 'lang' query param
   const langQueryParam = new URL(window.location.href).searchParams.get('lang');
 
   const LANGUAGE_CODE = document.documentElement.lang || langQueryParam || 'en';
@@ -23,7 +22,6 @@ const enableFirebaseUi = () => {
   document.head.append(uiScript);
   document.head.append(uiStyle);
 
-  // TODO: Put firebase ui behind feature flag to be optional
   const uiConfig = {
     ...INIT_CONFIG,
     callbacks: {

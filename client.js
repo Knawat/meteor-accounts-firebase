@@ -3,9 +3,7 @@ import "firebase/auth";
 
 Meteor.startup(() => {
   // For debugging purposes
-  if (process.env.NODE_ENV === 'development') {
-    window.firebase = firebase;
-  }
+  window.firebase = firebase;
 
   const config = Meteor.settings.public.firebase;
   // Stopping if firebase config not provided
@@ -13,6 +11,7 @@ Meteor.startup(() => {
     console.warn('Firebase config missing. Check firebase object under Meteor public settings');
     return;
   }
+
   firebase.initializeApp(config);
 
   Accounts.registerClientLoginFunction('firebase', (token) => {

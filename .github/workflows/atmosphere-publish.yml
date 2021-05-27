@@ -1,6 +1,3 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
-
 name: Meteor.js Package
 
 on:
@@ -15,8 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: meteorengineer/setup-meteor@v1.0.3
-      - run: meteor login
+      - run: echo $METEOR_TOKEN > token.json && ll && meteor login
         env:
-          METEOR_SESSION_FILE: ${{secrets.METEOR_TOKEN}}
+          METEOR_TOKEN: ${{secrets.METEOR_TOKEN}}
+          METEOR_SESSION_FILE: token.json
       - run: meteor publish --update
           

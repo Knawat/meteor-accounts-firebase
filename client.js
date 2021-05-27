@@ -24,7 +24,7 @@ Meteor.startup(() => {
     });
   });
 
-  firebase.auth().onAuthStateChanged(((user) => {
+  firebase.auth().onAuthStateChanged((user) => {
     if (user && Meteor.loggingIn() === false) {
       user.getIdToken().then(((token) => {
         Accounts.callLoginFunction('firebase', token);
@@ -32,24 +32,23 @@ Meteor.startup(() => {
     } else {
 
       if (Meteor.loggingIn()) {
-        Meteor.logout()
+        return Meteor.logout()
       }
 
-      // const loginUrl = Meteor.settings.public.loginUrl;
-      // const searchQuery = Object.entries({ redirect: window.location.href })
-      //   .map(([key, val]) => val && `${key}=${val}`)
-      //   .join('&');
-      // const accountsLogin = `${loginUrl}/login?${searchQuery}`;
-      // window.location.href = accountsLogin;
+      if (Meteor.settings.public.firebaseui?.enabled) {
+        import("./firebaseui").then(({ enableFirebaseUi }) => {
+          enableFirebaseUi();
+        });
+      }
     }
-  }));
+  });
 
   // In case you calling Meteor.logout() from the client side
   Accounts.onLogout(() => {
     if (firebase.auth().currentUser) {
       firebase.auth().signOut();
     }
-  })
-})
+  });
+});
 
 export { firebase };

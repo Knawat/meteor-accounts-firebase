@@ -46,7 +46,9 @@ Meteor.startup(() => {
   // In case you calling Meteor.logout() from the client side
   Accounts.onLogout(() => {
     if (firebase.auth().currentUser) {
-      firebase.auth().signOut();
+      firebase.auth().signOut().then(() => {
+        window.location.reload()
+      });
     }
   });
 });

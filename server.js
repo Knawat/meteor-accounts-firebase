@@ -12,13 +12,13 @@ Meteor.startup(() => {
   });
 })
 
-// Since Meteor server runs synchronosly, we used Meteor.methods to wrap code asynchronously,
-// This allows user data to be resolved before continouing with rest of the logic
+// Since Meteor server runs synchronously, we used Meteor.methods to wrap code asynchronously,
+// This allows user data to be resolved before continuing with rest of the logic
 Meteor.methods({
   'firebase.verify': (token) => {
-      return admin.auth().verifyIdToken(token).catch(error => {
-        throw new Meteor.Error(error);
-      });
+    return admin.auth().verifyIdToken(token).catch(error => {
+      throw new Meteor.Error(error);
+    });
   }
 });
 
@@ -28,13 +28,13 @@ Accounts.registerLoginHandler('firebase', ({ token }) => {
     throw new Meteor.Error('Firebase config missing. Check firebase object under Meteor public settings');
   }
   const userData = Meteor.call('firebase.verify', token);
-  
+
   const user = Accounts.updateOrCreateUserFromExternalService('firebase', {
     id: userData.uid
   });
 
-  if (user.userId){
-    Meteor.users.update({_id: user.userId}, {
+  if (user.userId) {
+    Meteor.users.update({ _id: user.userId }, {
       $set: {
         profile: user,
         emails: [{

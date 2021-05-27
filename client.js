@@ -24,7 +24,7 @@ Meteor.startup(() => {
     });
   });
 
-  firebase.auth().onAuthStateChanged(((user) => {
+  firebase.auth().onAuthStateChanged((user) => {
     if (user && Meteor.loggingIn() === false) {
       user.getIdToken().then(((token) => {
         Accounts.callLoginFunction('firebase', token);
@@ -35,20 +35,20 @@ Meteor.startup(() => {
         return Meteor.logout()
       }
 
-      if (Meteor.settings.public.firebaseui && Meteor.settings.public.firebaseui.enabled) {
-        import ("./firebaseui").then(({ enableFirebaseUi }) => {
+      if (Meteor.settings.public.firebaseui?.enabled) {
+        import("./firebaseui").then(({ enableFirebaseUi }) => {
           enableFirebaseUi();
         });
       }
     }
-  }));
+  });
 
   // In case you calling Meteor.logout() from the client side
   Accounts.onLogout(() => {
     if (firebase.auth().currentUser) {
       firebase.auth().signOut();
     }
-  })
-})
+  });
+});
 
 export { firebase };

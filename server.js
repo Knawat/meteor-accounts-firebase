@@ -29,23 +29,26 @@ Accounts.registerLoginHandler('firebase', ({ token }) => {
   }
   const userData = Meteor.call('firebase.verify', token);
 
-  const user = Accounts.updateOrCreateUserFromExternalService('firebase', {
-    id: userData.uid
-  });
+  return Accounts.updateOrCreateUserFromExternalService('firebase', {
+    id: userData.uid,
+  }, userData);
 
-  if (user.userId) {
-    Meteor.users.update({ _id: user.userId }, {
-      $set: {
-        profile: user,
-        emails: [{
-          value: userData.email,
-          verified: userData.email_verified
-        }]
-      }
-    })
-  }
+});
 
-  return user;
+Accounts.onExternalLogin((options) => {
+  return {
+    profile: {
+      name: options.name
+    },
+    roles: options.roles,
+    phones: [{
+      value: options.phone_number
+    }],
+    emails: [{
+      "value": options.email,
+      "verified": options.email_verified,
+    }]
+  };
 });
 
 export { admin as firebase_admin }

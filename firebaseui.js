@@ -10,6 +10,10 @@ const enableFirebaseUi = () => {
   const FIREBASEUI_VERSION = Meteor.settings.public.firebaseui.version || '4.8.0';
   const INIT_CONFIG = Meteor.settings.public.firebaseui.init;
 
+  // tos and privacy links
+  const tosUrl = Meteor.settings.public.firebaseui.tosUrl[LANGUAGE_CODE] || Meteor.settings.public.firebaseui.tosUrl;
+  const privacyPolicyUrl = Meteor.settings.public.firebaseui.privacyPolicyUrl[LANGUAGE_CODE] || Meteor.settings.public.firebaseui.privacyPolicyUrl;
+
   // Load CDN
   const uiScript = document.createElement('script');
   uiScript.src = `https://www.gstatic.com/firebasejs/ui/${FIREBASEUI_VERSION}/firebase-ui-auth__${LANGUAGE_CODE}.js`;
@@ -40,6 +44,8 @@ const enableFirebaseUi = () => {
       firebase.auth.PhoneAuthProvider.PROVIDER_ID,
       // firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
     ],
+    tosUrl,
+    privacyPolicyUrl,
   };
 
   uiScript.addEventListener('load', () => {

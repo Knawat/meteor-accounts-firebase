@@ -1,5 +1,26 @@
 # meteor-accounts-firebase
 
+
+# Steps
+
+1. `meteor add knawat:accounts-firebase`
+2. Copy config from console.firebase.google.com > Project settings > copy config
+  ```json
+  {
+    "public": {
+      "firebase": {
+        "apiKey": "AIzaSyBiTCTDP8aJt3EIrkrpAN6edFi0hu4aKVI",
+        "authDomain": "knawat-auth-dev.firebaseapp.com",
+        "projectId": "knawat-auth-dev",
+        "storageBucket": "knawat-auth-dev.appspot.com",
+        "messagingSenderId": "191490571662",
+        "appId": "1:191490571662:web:7a42f9b509f23cc5f778df"
+      },
+      "firebaseui": {}
+    }
+  }
+  ```
+
 ## Configs
 ### All configs should be placed inside `Meteor.settings.public`
 
@@ -21,7 +42,6 @@ Example:
 #### `firebaseui` optional
 Allow to include firebaseui for login flow inside app
 
-`enabled`: `true` | `false` required
 `version`: `4.8.0` optional
 
 `init`: ui config to initialize firebaseui

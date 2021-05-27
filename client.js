@@ -30,11 +30,7 @@ Meteor.startup(() => {
       });
     }
 
-    if (Meteor.loggingIn()) {
-      return Meteor.logout()
-    }
-
-    if (Meteor.settings.public.firebaseui) {
+    if (!user && Meteor.loggingIn() === false && Meteor.settings.public.firebaseui) {
       return import("./firebaseui").then(({ enableFirebaseUi }) => {
         enableFirebaseUi();
       });

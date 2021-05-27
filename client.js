@@ -25,23 +25,22 @@ Meteor.startup(() => {
 
   firebase.auth().onAuthStateChanged((user) => {
     if (user && Meteor.loggingIn() === false) {
-      user.getIdToken().then(((token) => {
+      return user.getIdToken().then((token) => {
         Accounts.callLoginFunction('firebase', token);
-      }))
-    } else {
-
-      if (Meteor.loggingIn()) {
-        return Meteor.logout()
-      }
-
-      if (Meteor.settings.public.firebaseui) {
-        return import("./firebaseui").then(({ enableFirebaseUi }) => {
-          enableFirebaseUi();
-        });
-      }
-
-      console.warn('FirebaseUI config disabled');
+      });
     }
+
+    if (Meteor.loggingIn()) {
+      return Meteor.logout()
+    }
+
+    if (Meteor.settings.public.firebaseui) {
+      return import("./firebaseui").then(({ enableFirebaseUi }) => {
+        enableFirebaseUi();
+      });
+    }
+
+    console.warn('FirebaseUI config disabled');
   });
 
   // In case you calling Meteor.logout() from the client side

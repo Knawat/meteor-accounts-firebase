@@ -35,11 +35,13 @@ Meteor.startup(() => {
         return Meteor.logout()
       }
 
-      if (Meteor.settings.public.firebaseui?.enabled) {
-        import("./firebaseui").then(({ enableFirebaseUi }) => {
+      if (Meteor.settings.public.firebaseui) {
+        return import("./firebaseui").then(({ enableFirebaseUi }) => {
           enableFirebaseUi();
         });
       }
+
+      console.warn('FirebaseUI config disabled');
     }
   });
 

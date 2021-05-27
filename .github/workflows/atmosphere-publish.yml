@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: meteorengineer/setup-meteor@v1.0.3
-      - run: echo $METEOR_TOKEN > token.json && ll && meteor login
+      - run: echo $METEOR_TOKEN > token.json && ls -la && meteor login
         env:
           METEOR_TOKEN: ${{secrets.METEOR_TOKEN}}
           METEOR_SESSION_FILE: token.json

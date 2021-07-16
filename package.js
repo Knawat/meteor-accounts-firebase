@@ -1,6 +1,6 @@
 Package.describe({
   name: 'knawat:accounts-firebase',
-  version: '1.0.7',
+  version: '1.0.8',
   summary: 'Login service via Firebase Authentication',
   git: 'https://github.com/Knawat/meteor-accounts-firebase.git',
   documentation: 'README.md'
@@ -9,7 +9,7 @@ Package.describe({
 Package.onUse(api => {
   api.versionsFrom('1.8.2');
   api.use(['ecmascript', 'check']);
-  api.use('accounts-base@2.0.0', ['client', 'server']);
+  api.use('accounts-base', ['client', 'server']);
 
   api.mainModule('server.js', 'server');
   api.mainModule('client.js', 'client');

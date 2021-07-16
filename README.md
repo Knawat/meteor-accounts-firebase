@@ -1,22 +1,25 @@
 # meteor-accounts-firebase
 
+Meteor Accounts connector to Firebase & FirebaseUI
 
 # Steps
 
 1. `meteor add knawat:accounts-firebase`
-2. Copy config from console.firebase.google.com > Project settings > copy config
+2. Copy config from [console.firebase.google.com](https://console.firebase.google.com) > Project settings > copy config
   ```json
   {
     "public": {
       "firebase": {
-        "apiKey": "AIzaSyBiTCTDP8aJt3EIrkrpAN6edFi0hu4aKVI",
-        "authDomain": "knawat-auth-dev.firebaseapp.com",
-        "projectId": "knawat-auth-dev",
-        "storageBucket": "knawat-auth-dev.appspot.com",
-        "messagingSenderId": "191490571662",
-        "appId": "1:191490571662:web:7a42f9b509f23cc5f778df"
+        "apiKey": "XXXXXXX",
+        "authDomain": "YOUR-APP.firebaseapp.com",
+        "projectId": "YOUR-APP",
+        "storageBucket": "YOUR-APP.appspot.com",
+        "messagingSenderId": "XXXXXXX",
+        "appId": "XXXXXXX"
       },
-      "firebaseui": {}
+      "firebaseui": {
+        // https://github.com/firebase/firebaseui-web#configuring-sign-in-providers
+      }
     }
   }
   ```
@@ -54,9 +57,8 @@ Example:
 ```
 
 ## Todo:
-1. Login and logout Meteor depend on Firebase status.
-2. Handle `Meteor.onLogout()` to logout from Firebase.
-3. On logout redirect to login page.
-4. Firebase configs should be parameter.
-5. Export firebase and firebase-admin after app initialized.
+- [x] Login and logout Meteor depend on Firebase status.
+- [x] Handle `Meteor.onLogout()` to logout from Firebase.
+- [x] On logout redirect to login page.
+- [x] Export firebase and firebase-admin after app initialized.
 

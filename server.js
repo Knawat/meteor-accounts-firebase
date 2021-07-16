@@ -51,4 +51,4 @@ Accounts.onExternalLogin((options) => {
   };
 });
 
-export { admin as firebase_admin }
+export { admin as firebaseAdmin };

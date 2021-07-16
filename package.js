@@ -11,13 +11,11 @@ Package.onUse(api => {
   api.use(['ecmascript', 'check']);
   api.use('accounts-base', ['client', 'server']);
 
-  api.addFiles('style.css', 'client');
-  api.addFiles('client.js', 'client');
-  api.addFiles('firebaseui.js', 'client');
-  api.addFiles('server.js', 'server');
+  api.mainModule('server.js', 'server');
+  api.mainModule('client.js', 'client');
 
-  api.export(['firebase'], 'client');
-  api.export(['firebase_admin'], 'server');
+  api.addFiles('style.css', 'client');
+  api.addFiles('firebaseui.js', 'client');
 });
 
 Npm.depends({

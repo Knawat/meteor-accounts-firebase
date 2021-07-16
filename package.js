@@ -9,7 +9,7 @@ Package.describe({
 Package.onUse(api => {
   api.versionsFrom('1.8.2');
   api.use(['ecmascript', 'check']);
-  api.use('accounts-base', ['client', 'server']);
+  api.use('accounts-base@2.0.0', ['client', 'server']);
 
   api.mainModule('server.js', 'server');
   api.mainModule('client.js', 'client');

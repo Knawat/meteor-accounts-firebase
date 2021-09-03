@@ -20,5 +20,5 @@ Package.onUse(api => {
 
 Npm.depends({
   'firebase': '8.7.1',
-  'firebase-admin': '9.11.0',
+  'firebase-admin': '9.11.1',
 });

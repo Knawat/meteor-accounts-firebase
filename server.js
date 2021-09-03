@@ -16,9 +16,11 @@ Meteor.startup(() => {
 // This allows user data to be resolved before continuing with rest of the logic
 Meteor.methods({
   'firebase.verify': (token) => {
-    return admin.auth().verifyIdToken(token).catch(error => {
-      throw new Meteor.Error(error);
-    });
+    return admin.auth().verifyIdToken(token).then(({ uid }) => admin
+      .auth()
+      .getUser(uid)).catch(error => {
+        throw new Meteor.Error(error);
+      });
   }
 });
 
@@ -36,17 +38,21 @@ Accounts.registerLoginHandler('firebase', ({ token }) => {
 });
 
 Accounts.onExternalLogin((options) => {
+
+  const phoneNumber = options.phone_number || options.providerData.find(provider => provider.phoneNumber)
+
   return {
     profile: {
-      name: options.name
+      name: options.displayName || options.providerData.find(provider => provider.displayName),
+      photoURL: options.photoURL || options.providerData.find(provider => provider.photoURL)
     },
-    roles: options.roles,
-    phones: [{
+    roles: Object.values(options.customClaims),
+    phones: phoneNumber ? [{
       value: options.phone_number
-    }],
+    }] : undefined,
     emails: [{
-      "value": options.email,
-      "verified": options.email_verified,
+      value: options.email,
+      verified: options.emailVerified,
     }]
   };
 });

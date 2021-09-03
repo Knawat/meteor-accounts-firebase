@@ -1,6 +1,6 @@
 Package.describe({
   name: 'knawat:accounts-firebase',
-  version: '1.0.8',
+  version: '1.1.0',
   summary: 'Login service via Firebase Authentication',
   git: 'https://github.com/Knawat/meteor-accounts-firebase.git',
   documentation: 'README.md'
